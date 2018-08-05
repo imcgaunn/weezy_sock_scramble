@@ -23,7 +23,7 @@ class Weezy(Block):
         self.playerwidth = width
         self.image_path = os.path.join('sprites', os.path.join('images', 'weez.gif'))
         if pygame.image.get_extended():
-            self.image = pygame.image.load_basic(self.image_path)
+            self.image = pygame.Surface.convert(pygame.image.load(self.image_path))
         else:
             raise NameError("no GIF support :(")
         self.change_x = 0
@@ -124,4 +124,3 @@ class Weezy(Block):
     def jump(self):
         if self.can_jump:
             self.change_y = -10
-
