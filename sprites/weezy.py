@@ -3,22 +3,22 @@ import logging
 import os
 import pygame
 
-from .block import Block
 from constants import SCREEN_X, SCREEN_Y, FACING_RIGHT, FACING_LEFT
 
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("player")
 
-class Weezy(Block):
+
+class Weezy(pygame.sprite.Sprite):
     """ The player is a block that can walk """
 
     X_VELOCITY = 6
     Y_VELOCITY = 6
     SPRITE_PATH = os.path.join('sprites', os.path.join('images', 'weez.gif'))
 
-    def __init__(self, color, width, height):
-        super().__init__(color, width, height)
+    def __init__(self, width, height):
+        super().__init__()
         self.playerheight = height
         self.playerwidth = width
         self.facing = FACING_RIGHT # TODO: logic for flipping weezy's sprite when she changes direction
@@ -26,6 +26,7 @@ class Weezy(Block):
             self.image = pygame.Surface.convert(pygame.image.load(Weezy.SPRITE_PATH))
             scaled = pygame.transform.scale(self.image, (width, height))
             self.image = scaled
+            self.rect = self.image.get_rect()
         else:
             raise NameError("no GIF support :(")
         self.change_x = 0
@@ -35,7 +36,6 @@ class Weezy(Block):
                           pygame.K_UP: False,
                           pygame.K_RIGHT: False,
                           pygame.K_LEFT: False}
-
         self._score = 0
 
     @property

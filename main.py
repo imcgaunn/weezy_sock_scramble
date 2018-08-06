@@ -11,7 +11,7 @@ from sprites.block import Block
 from sprites.weezy import Weezy
 from sprites.world import World
 
-from constants import BLACK, RED, SCREEN_X, SCREEN_Y
+from constants import SCREEN_X, SCREEN_Y
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("weezy_world")
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode([SCREEN_X, SCREEN_Y])
 
-    player = Weezy(RED, 64, 64)
+    player = Weezy(64, 64)
     world = World(screen)
     world.set_player(player)
 
