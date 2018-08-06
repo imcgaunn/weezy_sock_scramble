@@ -8,6 +8,7 @@ import logging
 
 from sprites.weezy import Weezy
 from sprites.world import World
+from sprites.basic_platform import BasicPlatform
 
 from constants import SCREEN_X, SCREEN_Y
 
@@ -22,6 +23,7 @@ if __name__ == '__main__':
     player = Weezy(64, 64)
     world = World(screen)
     world.set_player(player)
+    world.add_platform(BasicPlatform())
 
     # -------- Main Program Loop -----------
     done = False

@@ -12,6 +12,7 @@ class World(object):
     def __init__(self, screen):
         self._all = pygame.sprite.Group()
         self._player = pygame.sprite.GroupSingle()
+        self._platforms = pygame.sprite.Group()
         self._screen = screen
         self._score = 0
         self._clock = pygame.time.Clock()
@@ -19,6 +20,10 @@ class World(object):
     def set_player(self, player):
         self._player.add(player)
         self._all.add(player)
+
+    def add_platform(self, platform):
+        self._platforms.add(platform)
+        self._all.add(platform)
 
     def handle_key_pressed(self, kb_event):
         try:
