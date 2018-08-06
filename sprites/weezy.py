@@ -45,7 +45,8 @@ class Weezy(Block):
     def can_jump(self):
         # if we are on the ground or another platform, should be allowed to
         # jump.
-        return True
+        if self.on_ground:
+            return True
 
     @property
     def score(self):
