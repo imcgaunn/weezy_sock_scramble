@@ -10,20 +10,19 @@ from constants import SCREEN_X, SCREEN_Y
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("player")
 
-
 class Weezy(Block):
     """ The player is a block that can walk """
 
     X_VELOCITY = 6
     Y_VELOCITY = 6
+    SPRITE_PATH = os.path.join('sprites', os.path.join('images', 'weez.gif'))
 
     def __init__(self, color, width, height):
         super().__init__(color, width, height)
         self.playerheight = height
         self.playerwidth = width
-        self.image_path = os.path.join('sprites', os.path.join('images', 'weez.gif'))
         if pygame.image.get_extended():
-            self.image = pygame.Surface.convert(pygame.image.load(self.image_path))
+            self.image = pygame.Surface.convert(pygame.image.load(Weezy.SPRITE_PATH))
             scaled = pygame.transform.scale(self.image, (width, height))
             self.image = scaled
         else:
