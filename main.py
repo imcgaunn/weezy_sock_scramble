@@ -31,7 +31,7 @@ if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode([SCREEN_X, SCREEN_Y])
 
-    player = Weezy(RED, 10, 20)
+    player = Weezy(RED, 64, 64)
     world = World(screen)
     world.set_player(player)
 
