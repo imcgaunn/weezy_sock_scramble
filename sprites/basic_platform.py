@@ -21,7 +21,7 @@ class BasicPlatform(pygame.sprite.Sprite):
 
         # toss that sucker right in the middle of the screen
         self.rect.x = SCREEN_X / 2
-        self.rect.y = SCREEN_Y / 2
+        self.rect.y = SCREEN_Y / 2 + 150
     pass
 
     def update(self):

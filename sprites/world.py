@@ -44,8 +44,21 @@ class World(object):
         finally:
             return
 
+    def check_collisions(self):
+        player_platform_collisions = pygame.sprite.groupcollide(groupa=self._player,
+                                                                groupb=self._platforms,
+                                                                dokilla=False,
+                                                                dokillb=False)
+        if player_platform_collisions:
+            log.debug(f"binky landed on a platform: {player_platform_collisions}")
+            self._player.sprite.on_platform()
+        else:
+            log.debug(f"binky isn't on a platform: {player_platform_collisions}")
+            self._player.sprite.off_platform()
+
     def turn(self):
         self._screen.fill(WHITE)
+        self.check_collisions()
         self._all.update()
         self._all.draw(self._screen)
         self._clock.tick(60)

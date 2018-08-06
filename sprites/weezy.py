@@ -37,10 +37,11 @@ class Weezy(pygame.sprite.Sprite):
                           pygame.K_RIGHT: False,
                           pygame.K_LEFT: False}
         self._score = 0
+        self._on_platform = False
 
     @property
     def on_ground(self):
-        return self.rect.y >= SCREEN_Y - self.rect.height and self.change_y >= 0
+        return ((self.rect.y >= SCREEN_Y - self.rect.height) or self._on_platform) and self.change_y >= 0
 
     @property
     def can_jump(self):
@@ -61,7 +62,13 @@ class Weezy(pygame.sprite.Sprite):
 
         if self.on_ground:
             self.change_y = 0
-            self.rect.y = SCREEN_Y - self.rect.height
+            # self.rect.y = SCREEN_Y - self.rect.height
+
+    def on_platform(self):
+        self._on_platform = True
+
+    def off_platform(self):
+        self._on_platform = False
 
     def update(self):
         self._apply_forces()
