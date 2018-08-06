@@ -28,7 +28,7 @@ class World(object):
     def handle_key_pressed(self, kb_event):
         try:
             log.info(f'pressed: {kb_event}')
-            self._player.sprite.handle_key_pressed(kb_event.key)
+            self._player.sprite.handle_movement_keydown(kb_event.key)
         except AttributeError:
             log.info("you didn't pass a keyboard event!!")
         finally:
@@ -38,7 +38,7 @@ class World(object):
         try:
             log.info(f"released: {kb_event}")
             if kb_event.key in {pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN}:
-                self._player.sprite.handle_key_released(kb_event.key)
+                self._player.sprite.handle_movement_keyup(kb_event.key)
         except AttributeError:
             log.info("you didn't pass a keyboard event!!")
         finally:

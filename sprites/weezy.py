@@ -4,7 +4,7 @@ import os
 import pygame
 
 from .block import Block
-from constants import SCREEN_X, SCREEN_Y
+from constants import SCREEN_X, SCREEN_Y, FACING_RIGHT, FACING_LEFT
 
 
 logging.basicConfig(level=logging.INFO)
@@ -21,6 +21,7 @@ class Weezy(Block):
         super().__init__(color, width, height)
         self.playerheight = height
         self.playerwidth = width
+        self.facing = FACING_RIGHT # TODO: logic for flipping weezy's sprite when she changes direction
         if pygame.image.get_extended():
             self.image = pygame.Surface.convert(pygame.image.load(Weezy.SPRITE_PATH))
             scaled = pygame.transform.scale(self.image, (width, height))
@@ -83,7 +84,8 @@ class Weezy(Block):
             self.rect.x = 0
             self.stop_movement()
 
-    def handle_key_pressed(self, key):
+    def handle_movement_keydown(self, key):
+        """ called when movement control button is pressed """
         try:
             log.info(f'pressed: {key}')
             if key == pygame.K_LEFT:
@@ -100,7 +102,8 @@ class Weezy(Block):
         except AttributeError:
             log.info("you didn't pass a keyboard event!!")
 
-    def handle_key_released(self, key):
+    def handle_movement_keyup(self, key):
+        """ called when movement control button is released """
         def _opposite_dir(key):
             return {pygame.K_LEFT: pygame.K_RIGHT,
                     pygame.K_RIGHT: pygame.K_LEFT,
@@ -116,9 +119,11 @@ class Weezy(Block):
 
     def walk_left(self):
         self.change_x = -Weezy.X_VELOCITY
+        self.facing = FACING_LEFT
 
     def walk_right(self):
         self.change_x = Weezy.X_VELOCITY
+        self.facing = FACING_RIGHT
 
     def stop_movement(self):
         self.change_x = 0

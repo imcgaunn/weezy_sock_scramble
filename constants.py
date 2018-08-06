@@ -6,3 +6,6 @@ RED = (255, 0, 0)
 SCREEN_X = 640
 SCREEN_Y = 480
 GRAVITY_ACCEL = 1.2
+
+FACING_RIGHT = "right"
+FACING_LEFT = "left"
