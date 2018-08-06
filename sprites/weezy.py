@@ -11,7 +11,7 @@ log = logging.getLogger("player")
 
 
 class Weezy(pygame.sprite.Sprite):
-    """ The player is a block that can walk """
+    """ The player is a sprite that can walk """
 
     X_VELOCITY = 6
     Y_VELOCITY = 6
