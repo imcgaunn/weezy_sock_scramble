@@ -17,16 +17,6 @@ logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("weezy_world")
 
 
-def spawn_blocks(world, n=50):
-    for _ in range(n):
-        new_block = Block(BLACK, 20, 15)
-
-        new_block.rect.x = random.randrange(SCREEN_X)
-        new_block.rect.y = random.randrange(SCREEN_Y)
-
-        world.add_block(new_block)
-
-
 if __name__ == '__main__':
     pygame.init()
     screen = pygame.display.set_mode([SCREEN_X, SCREEN_Y])
