@@ -111,7 +111,8 @@ class Weezy(Block):
         try:
             log.info(f'released: {key}')
             self.keys_down[key] = False
-            if key in {pygame.K_LEFT, pygame.K_RIGHT} and not(self.keys_down[_opposite_dir(key)]):
+            if key in {pygame.K_LEFT, pygame.K_RIGHT} and \
+                    not(self.keys_down[_opposite_dir(key)]):
                 self.stop_movement()
             print(f'keys down: {self.keys_down}')
         except AttributeError:
