@@ -4,10 +4,8 @@ starrin bincly
 """
 
 import pygame
-import random
 import logging
 
-from sprites.block import Block
 from sprites.weezy import Weezy
 from sprites.world import World
 

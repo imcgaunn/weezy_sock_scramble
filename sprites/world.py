@@ -11,15 +11,10 @@ class World(object):
     """ Holds all the sprite groups """
     def __init__(self, screen):
         self._all = pygame.sprite.Group()
-        self._blocks = pygame.sprite.Group()
         self._player = pygame.sprite.GroupSingle()
         self._screen = screen
         self._score = 0
         self._clock = pygame.time.Clock()
-
-    def add_block(self, block):
-        self._blocks.add(block)
-        self._all.add(block)
 
     def set_player(self, player):
         self._player.add(player)
@@ -46,13 +41,6 @@ class World(object):
 
     def turn(self):
         self._screen.fill(WHITE)
-
-        blocks_hit_list = pygame.sprite.spritecollide(self._player.sprite,
-                                                      self._blocks, False)
-        for block in blocks_hit_list:
-            self._score += 1
-            block.reset_pos()
-
         self._all.update()
         self._all.draw(self._screen)
         self._clock.tick(60)
