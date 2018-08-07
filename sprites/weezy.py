@@ -19,9 +19,11 @@ class Weezy(pygame.sprite.Sprite):
 
     def __init__(self, width, height):
         super().__init__()
-        self.playerheight = height
-        self.playerwidth = width
-        self.facing = FACING_RIGHT # TODO: logic for flipping weezy's sprite when she changes direction
+        self.player_height = height
+        self.player_width = width
+        self.facing = FACING_RIGHT
+        self.jumping = False
+
         if pygame.image.get_extended():
             self.image = pygame.Surface.convert(pygame.image.load(Weezy.SPRITE_PATH))
             self.right_sprite = pygame.transform.scale(self.image, (width, height))
@@ -30,6 +32,7 @@ class Weezy(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
         else:
             raise NameError("no GIF support :(")
+
         self.change_x = 0
         self.change_y = 0
 
@@ -84,10 +87,10 @@ class Weezy(pygame.sprite.Sprite):
         # don't let player leave the screen; just stop moving
         if self.rect.y > SCREEN_Y:
             log.info(f"hit max y: {SCREEN_Y}")
-            self.rect.y = SCREEN_Y - self.playerheight  # you can't get out!
+            self.rect.y = SCREEN_Y - self.player_height  # you can't get out!
         if self.rect.x > SCREEN_X:
             log.info(f"hit max x: {SCREEN_X}")
-            self.rect.x = SCREEN_X - self.playerwidth
+            self.rect.x = SCREEN_X - self.player_width
             self.stop_movement()
         if self.rect.y < 0:
             log.info("hit min y: 0")
@@ -101,9 +104,9 @@ class Weezy(pygame.sprite.Sprite):
         """ called when movement control button is pressed """
         try:
             log.info(f'pressed: {key}')
-            if key == pygame.K_LEFT:
+            if key == pygame.K_LEFT and self.on_ground:
                 self.walk_left()
-            elif key == pygame.K_RIGHT:
+            elif key == pygame.K_RIGHT and self.on_ground:
                 self.walk_right()
             elif key == pygame.K_DOWN:
                 pass
@@ -141,7 +144,10 @@ class Weezy(pygame.sprite.Sprite):
 
     def stop_movement(self):
         self.change_x = 0
+        if self.jumping:
+            self.jumping = False
 
     def jump(self):
         if self.can_jump:
             self.change_y = -10
+            self.jumping = True # TODO: figure out where to set landed
