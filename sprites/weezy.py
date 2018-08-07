@@ -86,24 +86,22 @@ class Weezy(pygame.sprite.Sprite):
 
         # don't let player leave the screen; just stop moving
         if self.rect.y > SCREEN_Y:
-            log.info(f"hit max y: {SCREEN_Y}")
+            log.debug(f"hit max y: {SCREEN_Y}")
             self.rect.y = SCREEN_Y - self.player_height  # you can't get out!
         if self.rect.x > SCREEN_X:
-            log.info(f"hit max x: {SCREEN_X}")
+            log.debug(f"hit max x: {SCREEN_X}")
             self.rect.x = SCREEN_X - self.player_width
-            self.stop_movement()
         if self.rect.y < 0:
-            log.info("hit min y: 0")
+            log.debug("hit min y: 0")
             self.rect.y = 0
         if self.rect.x < 0:
-            log.info("hit min x: 0")
+            log.debug("hit min x: 0")
             self.rect.x = 0
-            self.stop_movement()
 
     def handle_movement_keydown(self, key):
         """ called when movement control button is pressed """
         try:
-            log.info(f'pressed: {key}')
+            log.debug(f'pressed: {key}')
             if key == pygame.K_LEFT and self.on_ground:
                 self.walk_left()
             elif key == pygame.K_RIGHT and self.on_ground:
@@ -125,14 +123,14 @@ class Weezy(pygame.sprite.Sprite):
                     pygame.K_RIGHT: pygame.K_LEFT,
                     pygame.K_UP: pygame.K_DOWN}[key]
         try:
-            log.info(f'released: {key}')
+            log.debug(f'released: {key}')
             self.keys_down[key] = False
             if key in {pygame.K_LEFT, pygame.K_RIGHT} and \
                     not(self.keys_down[_opposite_dir(key)]):
                 self.stop_movement()
-            print(f'keys down: {self.keys_down}')
+            log.debug(f'keys down: {self.keys_down}')
         except AttributeError:
-            log.info("you didn't pass a keyboard event!!")
+            log.error("you didn't pass a keyboard event!!")
 
     def walk_left(self):
         self.change_x = -Weezy.X_VELOCITY
@@ -150,4 +148,4 @@ class Weezy(pygame.sprite.Sprite):
     def jump(self):
         if self.can_jump:
             self.change_y = -10
-            self.jumping = True # TODO: figure out where to set landed
+            self.jumping = True
