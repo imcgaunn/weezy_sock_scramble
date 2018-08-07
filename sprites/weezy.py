@@ -24,8 +24,9 @@ class Weezy(pygame.sprite.Sprite):
         self.facing = FACING_RIGHT # TODO: logic for flipping weezy's sprite when she changes direction
         if pygame.image.get_extended():
             self.image = pygame.Surface.convert(pygame.image.load(Weezy.SPRITE_PATH))
-            scaled = pygame.transform.scale(self.image, (width, height))
-            self.image = scaled
+            self.right_sprite = pygame.transform.scale(self.image, (width, height))
+            self.left_sprite = pygame.transform.flip(self.right_sprite, True, False)
+            self.image = self.right_sprite
             self.rect = self.image.get_rect()
         else:
             raise NameError("no GIF support :(")
@@ -74,6 +75,11 @@ class Weezy(pygame.sprite.Sprite):
         self._apply_forces()
         self.rect.x += self.change_x
         self.rect.y += self.change_y
+
+        if self.facing == FACING_LEFT:
+            self.image = self.left_sprite
+        else:
+            self.image = self.right_sprite
 
         # don't let player leave the screen; just stop moving
         if self.rect.y > SCREEN_Y:
