@@ -9,11 +9,15 @@ from constants import SCREEN_X, SCREEN_Y, FACING_RIGHT, FACING_LEFT
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("player")
 
+# TODO: procedurally generate world coming towards the character
+# TODO: througout the course there can be socks that the character can
+# collect and avoid obstacles etc.
 
 class Weezy(pygame.sprite.Sprite):
     """ The player is a sprite that can walk """
 
     X_VELOCITY = 6
+    X_ACCELERATION = 0.2
     Y_VELOCITY = 6
     SPRITE_PATH = os.path.join('sprites', os.path.join('images', 'weez.gif'))
 
@@ -74,17 +78,7 @@ class Weezy(pygame.sprite.Sprite):
     def off_platform(self):
         self._on_platform = False
 
-    def update(self):
-        self._apply_forces()
-        self.rect.x += self.change_x
-        self.rect.y += self.change_y
-
-        if self.facing == FACING_LEFT:
-            self.image = self.left_sprite
-        else:
-            self.image = self.right_sprite
-
-        # don't let player leave the screen; just stop moving
+    def _reset_sprite_if_outside_bounds(self):
         if self.rect.y > SCREEN_Y:
             log.debug(f"hit max y: {SCREEN_Y}")
             self.rect.y = SCREEN_Y - self.player_height  # you can't get out!
@@ -98,13 +92,30 @@ class Weezy(pygame.sprite.Sprite):
             log.debug("hit min x: 0")
             self.rect.x = 0
 
+    def _set_sprite_for_current_direction(self):
+        if self.facing == FACING_LEFT:
+            self.image = self.left_sprite
+        else:
+            self.image = self.right_sprite
+
+    def update(self):
+        self._apply_forces()
+        self._set_sprite_for_current_direction()
+
+        # apply "pending jump"
+        self.rect.x += self.change_x
+        self.rect.y += self.change_y
+
+        # don't let player leave the screen
+        self._reset_sprite_if_outside_bounds()
+
     def handle_movement_keydown(self, key):
         """ called when movement control button is pressed """
         try:
             log.debug(f'pressed: {key}')
-            if key == pygame.K_LEFT and self.on_ground:
+            if key == pygame.K_LEFT:
                 self.walk_left()
-            elif key == pygame.K_RIGHT and self.on_ground:
+            elif key == pygame.K_RIGHT:
                 self.walk_right()
             elif key == pygame.K_DOWN:
                 pass
